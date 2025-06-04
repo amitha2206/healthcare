@@ -1,0 +1,170 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Appointment Registration</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    async function submitAppointment(e) {
+      e.preventDefault();
+
+      // Collect all form fields into an object
+      const payload = {
+        fullName: document.getElementById("fullName").value,
+        dateOfBirth: document.getElementById("dateOfBirth").value,
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+        governmentId: document.getElementById("governmentId").value,
+        insuranceProvider: document.getElementById("insuranceProvider").value,
+        policyNumber: document.getElementById("policyNumber").value,
+        groupNumber: document.getElementById("groupNumber").value,
+        insuranceContact: document.getElementById("insuranceContact").value,
+        visitReason: document.getElementById("visitReason").value,
+        symptoms: document.getElementById("symptoms").value,
+        preferredDateTime: document.getElementById("preferredDateTime").value,
+        doctorName: document.getElementById("doctorName").value,
+        location: document.getElementById("location").value,
+        medications: document.getElementById("medications").value,
+        pastSurgeries: document.getElementById("pastSurgeries").value,
+        allergies: document.getElementById("allergies").value
+      };
+
+      // Simple validation
+      if (!payload.fullName || !payload.dateOfBirth || !payload.phone || !payload.email || !payload.governmentId) {
+        alert("Please fill in all required personal details.");
+        return;
+      }
+
+      // POST JSON to Flask
+      try {
+        const res = await fetch("/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert(data.message);
+          document.getElementById("appointmentForm").reset();
+        } else {
+          alert("Error: " + (data.error || "Unknown error"));
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Failed to submit. Check console for details.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Doctor Appointment Registration</h1>
+    <form id="appointmentForm" onsubmit="submitAppointment(event)">
+      <!-- Personal Details -->
+      <fieldset>
+        <legend>Personal Details</legend>
+        <label>
+          Full Name:<br/>
+          <input type="text" id="fullName" required />
+        </label><br/>
+
+        <label>
+          Date of Birth:<br/>
+          <input type="date" id="dateOfBirth" required />
+        </label><br/>
+
+        <label>
+          Phone Number:<br/>
+          <input type="tel" id="phone" required />
+        </label><br/>
+
+        <label>
+          Email Address:<br/>
+          <input type="email" id="email" required />
+        </label><br/>
+
+        <label>
+          Government-Issued ID:<br/>
+          <input type="text" id="governmentId" required />
+        </label>
+      </fieldset>
+
+      <!-- Insurance Information -->
+      <fieldset>
+        <legend>Insurance Information</legend>
+        <label>
+          Insurance Provider Name:<br/>
+          <input type="text" id="insuranceProvider" required />
+        </label><br/>
+
+        <label>
+          Policy or Member ID Number:<br/>
+          <input type="text" id="policyNumber" required />
+        </label><br/>
+
+        <label>
+          Group Number:<br/>
+          <input type="text" id="groupNumber" required />
+        </label><br/>
+
+        <label>
+          Provider’s Contact Details:<br/>
+          <input type="text" id="insuranceContact" required />
+        </label>
+      </fieldset>
+
+      <!-- Appointment Details -->
+      <fieldset>
+        <legend>Appointment Details</legend>
+        <label>
+          Reason for Visit:<br/>
+          <input type="text" id="visitReason" required />
+        </label><br/>
+
+        <label>
+          Brief Description of Symptoms:<br/>
+          <textarea id="symptoms" rows="3" required></textarea>
+        </label><br/>
+
+        <label>
+          Preferred Date & Time:<br/>
+          <input type="datetime-local" id="preferredDateTime" required />
+        </label><br/>
+
+        <label>
+          Doctor’s Name / Specialty:<br/>
+          <input type="text" id="doctorName" required />
+        </label><br/>
+
+        <label>
+          Location (Clinic):<br/>
+          <input type="text" id="location" required />
+        </label>
+      </fieldset>
+
+      <!-- Medical History -->
+      <fieldset>
+        <legend>Medical History (if any)</legend>
+        <label>
+          Current Medications (with dosages):<br/>
+          <textarea id="medications" rows="2"></textarea>
+        </label><br/>
+
+        <label>
+          Past Surgeries / Illnesses / Treatments:<br/>
+          <textarea id="pastSurgeries" rows="2"></textarea>
+        </label><br/>
+
+        <label>
+          Known Allergies:<br/>
+          <textarea id="allergies" rows="2"></textarea>
+        </label>
+      </fieldset>
+
+      <button type="submit">Submit Appointment</button>
+    </form>
+  </div>
+</body>
+</html>
