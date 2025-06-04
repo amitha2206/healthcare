@@ -1,0 +1,45 @@
+/* frontend/style.css */
+body {
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  background: #fff;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+fieldset {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
+legend {
+  font-weight: bold;
+}
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+input, textarea {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+button {
+  background: #0078d4;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover {
+  background: #005a9e;
+}
